@@ -1,4 +1,4 @@
-# This script runs fastqc on all fastq files in given folder
+# This script runs cutadapt on all fastq files in given folder
 # 1st argument - path with input fastq files
 # 2nd argument - folder in which output should be written
 # 3nd argument - number of threads
@@ -13,12 +13,9 @@ mkdir -p ${OUT_PATH}
 
 # Iterate through all fastq files in IN_PATH and run fastqc
 for filename in ${IN_PATH}/*.fastq; do
-	echo "Started fastqc for ${filename}"
-	fastqc ${filename} -o ${OUT_PATH} -t ${N_THREADS}
-	echo "Finished fastqc for ${filename}"
+	sample_name=$(basename $filename)
+	echo "Started cutadapt for ${filename}"
+	cutadapt -b "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT" \
+		 -a "A{100}" -m 50 -j ${N_THREADS} -o "${OUT_PATH}/${sample_name}" ${filename} > "${OUT_PATH}/${sample_name}.log"
+	echo "Finished cutadapt for ${filename}"
 done
-
-# Now create one summary file for all samples
-echo "Generating summary file for all samples"
-unzip ${OUT_PATH}/\*.zip -d ${OUT_PATH}
-cat ${OUT_PATH}/*_fastqc/summary.txt > ${OUT_PATH}/summary.txt

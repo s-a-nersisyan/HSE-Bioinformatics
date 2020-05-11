@@ -1,0 +1,4 @@
+1. sudo apt-get install mysql-server
+2. sudo mysql_secure_installation
+3. sudo mysql -u root -> GRANT ALL PRIVILEGES ON *.* TO 'bcgsc_mirna'@'localhost' IDENTIFIED BY 'uglytool';
+4. mysql -u bcgsc_mirna -p -> CREATE DATABASE mirbase;

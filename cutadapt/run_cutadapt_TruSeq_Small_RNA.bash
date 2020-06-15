@@ -15,7 +15,7 @@ mkdir -p ${OUT_PATH}
 for filename in ${IN_PATH}/*.fastq; do
 	sample_name=$(basename $filename)
 	echo "Started cutadapt for ${filename}"
-	cutadapt -a "TGGAATTCTCGGGTGCCAAGG" \
+	cutadapt -a "TGGAATTCTCGGGTGCCAAGG" -a "ATCTCGTATGCCGTCTTCTGCTTG" -g "GTTCAGAGTTCTACAGTCCGACGATC" \
 		 -m 18 -j ${N_THREADS} -o "${OUT_PATH}/${sample_name}" ${filename} > "${OUT_PATH}/${sample_name}.log"
 	echo "Finished cutadapt for ${filename}"
 done

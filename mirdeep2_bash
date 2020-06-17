@@ -1,0 +1,52 @@
+# This script runs miRDeep2 modules (mapper and miRDeep) on fastq files in given folder
+# 1st argument - path with input .fastq files
+# 2nd argument - folder in which output should be written. All the output folders will be named as a basename of .fastq files
+# 3d argument - number of threads
+# Example: path_to_this_script.bash /folder/with/fastq/files /output/folder 8 table_name
+
+#!/bin/bash
+
+IN_PATH=$1
+OUT_PATH=$2
+N_THREADS=$3
+
+# Iterate through all .fastq files in IN_PATH and run mapper module
+for file in ${IN_PATH}/*.fastq
+do
+  FILE_ID=$(basename "$file" .fastq)
+  mapper.pl $file -e -h -j -l 18 -o ${N_THREADS} -m -p 
+  /home/steve/bulk/GENCODE_mouse_M25_GRCm38/GRCm38.primary_assembly.genome -s 
+  ${OUT_PATH}/collapsed_fasta/${FILE_ID}_collapsed.fa -t 
+  ${OUT_PATH}/${FILE_ID}_collapsed_vs_genome.arf
+done
+
+cd ${OUT_PATH}
+mkdir all_miRNAs # Create directory for samples’s miRNAs tables
+
+# Iterate through all .fa files in OUT_PATH and run miRDeep module
+for file in ${OUT_PATH}/*.fa
+do
+  FILE_ID=$(basename "$file" .fa)
+  mkdir $FILE_ID
+  miRDeep2.pl $file /home/steve/bulk/GENCODE_mouse_M25_GRCm38_without_whitespace/GRCm38.primary_assembly.genome.fa 
+  /${OUT_PATH}/${FILE_ID}_vs_genome.arf /${OUT_PATH}/mature_mmu.fa none /${OUT_PATH}/hairpin_mmu.fa
+  cp /${OUT_PATH}/${FILE_ID}/miRNAs* /${OUT_PATH}/all_miRNAs
+done
+
+# Create final table with all miRNAs
+touch All_miRNAs.csv
+OutFileName=“All_miRNAs.csv”
+i=0
+
+for filename in ${OUT_PATH}/all_miRNAs
+do
+	if [“$filename” != “$OutFileName”]  # Avoid recursion
+	then
+    if [[ $i -eq 0 ]]
+    then
+			head -1 “$filename” > “$OutFileName” # Copy header if it is the first file
+    fi
+    tail -n +2 “$filename” >> “$OutFileName” # Append from the 2nd line each file
+    i=$((  $i + 1 ))
+  fi
+done

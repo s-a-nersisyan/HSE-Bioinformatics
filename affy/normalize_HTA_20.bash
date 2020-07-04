@@ -10,5 +10,5 @@ OUT_PATH=$3
 
 mkdir -p ${OUT_PATH}
 Rscript ${CWD}/oligo_rma.R ${IN_PATH} ${OUT_PATH}
-python3 ${CWD}/annotate.py ${OUT_PATH}/rma_normalized.tsv ${GPL_PATH} ${OUT_PATH}
+python3 ${CWD}/annotate_HTA_20.py ${OUT_PATH}/rma_normalized.tsv ${GPL_PATH} ${OUT_PATH}
 rm ${OUT_PATH}/rma_normalized.tsv

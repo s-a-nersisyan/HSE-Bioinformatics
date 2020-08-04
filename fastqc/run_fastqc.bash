@@ -11,14 +11,5 @@ N_THREADS=$3
 # Create output folder if not already created
 mkdir -p ${OUT_PATH}
 
-# Iterate through all fastq files in IN_PATH and run fastqc
-for filename in ${IN_PATH}/*.fastq; do
-	echo "Started fastqc for ${filename}"
-	fastqc ${filename} -o ${OUT_PATH} -t ${N_THREADS}
-	echo "Finished fastqc for ${filename}"
-done
-
-# Now create one summary file for all samples
-echo "Generating summary file for all samples"
-unzip ${OUT_PATH}/\*.zip -d ${OUT_PATH}
-cat ${OUT_PATH}/*_fastqc/summary.txt > ${OUT_PATH}/summary.txt
+INPUT_FILES=$(ls ${IN_PATH}/*.fastq)
+fastqc -o ${OUT_PATH} -t ${N_THREADS} ${INPUT_FILES}

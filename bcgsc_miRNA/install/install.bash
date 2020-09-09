@@ -17,8 +17,9 @@ rm -rf miRBase_sql
 cd $PATH_TO_INSTALL
 git clone https://github.com/bcgsc/mirna.git
 mv mirna bcgsc_mirna
-echo "mm10 genome-mysql.soe.ucsc.edu genome" >> bcgsc_mirna/config/db_connections.cfg
+echo "hg38 genome-mysql.soe.ucsc.edu genome" >> bcgsc_mirna/config/db_connections.cfg
 echo "mirbase localhost bcgsc_mirna uglytool" >> bcgsc_mirna/config/db_connections.cfg
+echo "Rscript=Rscript" >> bcgsc_mirna/config/pipeline_params.cfg
 
 sudo apt-get install libdbi-perl
 sudo apt-get install libdbd-mysql-perl

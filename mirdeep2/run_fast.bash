@@ -12,22 +12,22 @@ SPECIES=$3
 OUT_PATH=$4
 N_THREADS=$5
 
-## Iterate through all .fastq files in IN_PATH and run mapper module
-#mkdir -p ${OUT_PATH}/mapping_results
-#cd ${OUT_PATH}/mapping_results
-#for file in ${IN_PATH}/*.fastq; do
-#	FILE_ID=$(basename $file ".fastq")
-#	mapper.pl \
-#		$file \
-#		-e -h -j -o ${N_THREADS} -m \
-#		-p ${REFERENCE_GENOME} \
-#		-s ${FILE_ID}_collapsed.fa \
-#		-t ${FILE_ID}_collapsed_vs_genome.arf \
-#		2> ${FILE_ID}_report.log
-#done
+# Iterate through all .fastq files in IN_PATH and run mapper module
+mkdir -p ${OUT_PATH}/mapping
+cd ${OUT_PATH}/mapping
+for file in ${IN_PATH}/*.fastq; do
+	FILE_ID=$(basename $file ".fastq")
+	mapper.pl \
+		$file \
+		-e -h -j -o ${N_THREADS} -m \
+		-p ${REFERENCE_GENOME} \
+		-s ${FILE_ID}_collapsed.fa \
+		-t ${FILE_ID}_collapsed_vs_genome.arf \
+		2> ${FILE_ID}_report.log
+done
 
-mkdir -p ${OUT_PATH}/quantification_results
-cd ${OUT_PATH}/quantification_results
+mkdir -p ${OUT_PATH}/quantification
+cd ${OUT_PATH}/quantification
 
 mkdir -p miRBase
 cd miRBase
@@ -50,7 +50,7 @@ for file in ${IN_PATH}/*.fastq; do
 	
 	quantifier.pl \
 		-m ../mature.fa -p ../hairpin.fa \
-		-r ${OUT_PATH}/mapping_results/${FILE_ID}_collapsed.fa \
+		-r ${OUT_PATH}/mapping/${FILE_ID}_collapsed.fa \
 		-t ${SPECIES} \
 		2> report.log
 

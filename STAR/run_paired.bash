@@ -24,6 +24,7 @@ for filename in ${IN_PATH}/*_1.fastq; do
 		--genomeLoad LoadAndKeep \
 		--readFilesIn ${IN_PATH}/${sample_name}_1.fastq ${IN_PATH}/${sample_name}_2.fastq \
 		--outFileNamePrefix ${OUT_PATH}/${sample_name}/ \
+		--outReadsUnmapped Fastx \
 		--quantMode GeneCounts \
 		--runThreadN ${N_THREADS}
 	

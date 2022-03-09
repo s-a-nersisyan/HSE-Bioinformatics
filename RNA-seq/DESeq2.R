@@ -27,11 +27,11 @@ res <- as.data.frame(results(dds))
 res <- merge(res, gene_types, by.x = 0, by.y = "Gene", all.y = FALSE)
 colnames(res)[1] <- "Gene"
 res <- res[order(res$padj),]
-write.table(res, file = paste(argv[6], "/", expr_group, "_vs_", ctrl_group, "_all.tsv", sep=""), sep = "\t", quote = FALSE, row.names = FALSE)
+write.table(res, file = paste(argv[7], "/", expr_group, "_vs_", ctrl_group, "_all.tsv", sep=""), sep = "\t", quote = FALSE, row.names = FALSE)
 
-res <- lfcShrink(dds, coef = paste("Group_", expr_group, "_vs_", ctrl_group, sep=""), type = "apeglm", lfcThreshold = 1)
+res <- lfcShrink(dds, coef = paste("Group_", expr_group, "_vs_", ctrl_group, sep=""), type = "apeglm", lfcThreshold = log2(as.numeric(argv[6])))
 res <- as.data.frame(subset(res, svalue < 0.005))
 res <- merge(res, gene_types, by.x = 0, by.y = "Gene", all.y = FALSE)
 colnames(res)[1] <- "Gene"
 res <- res[order(res$svalue),]
-write.table(res, file = paste(argv[6], "/", expr_group, "_vs_", ctrl_group, "_strict.tsv", sep=""), sep = "\t", quote = FALSE, row.names = FALSE)
+write.table(res, file = paste(argv[7], "/", expr_group, "_vs_", ctrl_group, "_", argv[6], "_strict.tsv", sep=""), sep = "\t", quote = FALSE, row.names = FALSE)

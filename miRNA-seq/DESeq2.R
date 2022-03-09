@@ -20,10 +20,11 @@ dds <- DESeqDataSetFromMatrix(countData = counts,
 dds <- DESeq(dds)
 
 res <- as.data.frame(results(dds))
+#res <- as.data.frame(lfcShrink(dds, coef = paste("Group_", expr_group, "_vs_", ctrl_group, sep=""), type = "apeglm"))
 res <- res[order(res$padj),]
-write.table(res, file = paste(argv[5], "/", argv[6], "_", expr_group, "_vs_", ctrl_group, "_all.tsv", sep=""), sep = "\t", quote = FALSE, col.names = NA)
+write.table(res, file = paste(argv[6], "/", argv[7], "_", expr_group, "_vs_", ctrl_group, "_all.tsv", sep=""), sep = "\t", quote = FALSE, col.names = NA)
 
-res <- lfcShrink(dds, coef = paste("Group_", expr_group, "_vs_", ctrl_group, sep=""), type = "apeglm", lfcThreshold = 1)
+res <- lfcShrink(dds, coef = paste("Group_", expr_group, "_vs_", ctrl_group, sep=""), type = "apeglm", lfcThreshold = log2(as.numeric(argv[5])))
 res <- as.data.frame(subset(res, svalue < 0.005))
 res <- res[order(res$svalue),]
-write.table(res, file = paste(argv[5], "/", argv[6], "_", expr_group, "_vs_", ctrl_group, "_strict.tsv", sep=""), sep = "\t", quote = FALSE, col.names = NA)
+write.table(res, file = paste(argv[6], "/", argv[7], "_", expr_group, "_vs_", ctrl_group, "_", argv[5], "_strict.tsv", sep=""), sep = "\t", quote = FALSE, col.names = NA)

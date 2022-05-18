@@ -14,12 +14,12 @@ from pprint import pprint
 from natsort import natsorted
 
 
-def rc(path, i=0, h="infer"):
-    return pd.read_csv(path, index_col=i, header=h)
+def rc(path, *args, i=0, h="infer", **kwargs):
+    return pd.read_csv(path, *args, index_col=i, header=h, **kwargs)
 
 
-def rt(path, i=0, h="infer"):
-    return pd.read_csv(path, sep="\t", index_col=i, header=h)
+def rt(path, *args, i=0, h="infer", **kwargs):
+    return pd.read_csv(path, *args, sep="\t", index_col=i, header=h, **kwargs)
 
 
 def fdr(p_values):

@@ -13,6 +13,8 @@ from tqdm import tqdm
 from pprint import pprint
 from natsort import natsorted
 
+import plots
+
 
 def rc(path, *args, i=0, h="infer", **kwargs):
     return pd.read_csv(path, *args, index_col=i, header=h, **kwargs)

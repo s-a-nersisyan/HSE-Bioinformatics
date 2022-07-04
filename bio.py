@@ -40,3 +40,28 @@ def col(df, cols, return_in=False):
         return df[set(df.columns)&set(cols)], set(df.columns)&set(cols)
 
     return df[set(df.columns)&set(cols)]
+
+
+def parallelize(args_list, func, n_processes, multiple_args=False):
+    args_chunks = np.array_split(args_list, n_processes)
+    
+    def process_chunk(args_chunk):
+        results = []
+        for arg in args_chunk:
+            results.append(func(*arg if multiple_args else arg))
+            
+        return results
+    
+    with Pool(n_processes) as p:
+        if multiple_args:
+            results = p.starmap(
+                process_chunk,
+                args_chunks,
+            )
+        else:
+            results = p.map(
+                process_chunk,
+                args_chunks,
+            )
+        
+    return results

@@ -7,7 +7,7 @@ class Parallelizator:
         self.func = func
         self.multiple_args = multiple_args
         self.n_processes = n_processes
-        self.args_chunks = np.array_split(args_list, n_processes)
+        self.args_chunks = list(np.array_split(args_list, n_processes))
         self.set_process_chunk()
         
     def set_process_chunk(self):
@@ -16,6 +16,7 @@ class Parallelizator:
         def process_chunk(args_chunk):
             results = []
             for arg in args_chunk:
+                print(arg)
                 results.append(self.func(*arg) if self.multiple_args else self.func(arg))
 
             return results

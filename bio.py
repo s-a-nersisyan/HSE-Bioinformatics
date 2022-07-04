@@ -12,7 +12,7 @@ from scipy.stats import *
 from tqdm import tqdm
 from pprint import pprint
 from natsort import natsorted
-from .parallelize import Parallelizator
+from parallelize import Parallelizator
 
 import plots
 

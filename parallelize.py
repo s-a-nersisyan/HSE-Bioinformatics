@@ -11,6 +11,8 @@ class Parallelizator:
         self.set_process_chunk()
         
     def set_process_chunk(self):
+        # !TODO: THIS IS VERY BAD
+        global process_chunk
         def process_chunk(args_chunk):
             results = []
             for arg in args_chunk:

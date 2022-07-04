@@ -16,7 +16,7 @@ class Parallelizator:
         def process_chunk(args_chunk):
             results = []
             for arg in args_chunk:
-                results.append(self.func(*arg if self.multiple_args else arg))
+                results.append(self.func(*arg) if self.multiple_args else self.func(arg))
 
             return results
         

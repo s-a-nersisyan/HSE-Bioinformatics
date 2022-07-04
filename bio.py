@@ -42,7 +42,7 @@ def col(df, cols, return_in=False):
     return df[set(df.columns)&set(cols)]
 
 
-def parallelize(args_list, func, n_processes, multiple_args=False):
+def parallelize(func, args_list, n_processes, multiple_args=False):
     args_chunks = np.array_split(args_list, n_processes)
     
     def process_chunk(args_chunk):

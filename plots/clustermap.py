@@ -1,13 +1,14 @@
 from bio import *
 
 
-def clustermap(df, show=False, save_path=None, **kwargs):
+def clustermap(df, show=False, save_path=None, ax=None, **kwargs):
     cg = sns.clustermap(
         df,
         **{
             'cmap': sns.color_palette("bwr", as_cmap=True),
             **kwargs,
         },
+        ax=ax,
     )
 
     cg.ax_heatmap.yaxis.tick_left()

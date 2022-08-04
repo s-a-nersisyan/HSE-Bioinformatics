@@ -3,7 +3,7 @@
 # 2nd argument - path to indexed genome
 # 3rd argument - folder in which output should be written
 # 4th argument - number of threads
-# Example: path_to_this_script.bash /folder/with/fastq/files /path/to/salmon_index (~/huge/bulk/GENCODE_human_34/gencode.v34.transcripts.fa) /output/folder 8
+# Example: path_to_this_script.bash /folder/with/fastq/files /path/to/salmon_index (/home/v-novosad/huge/bulk/GENCODE_human_34/gencode.v34.transcripts_salmon_index) /output/folder 8
 
 IN_PATH=$1
 GENOME_PATH=$2
